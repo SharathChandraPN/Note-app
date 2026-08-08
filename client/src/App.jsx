@@ -55,7 +55,7 @@ function App() {
         <header className="header">
           <div className="header-icon">✓</div>
 
-          <h1>My Notes</h1>
+          <h1>Simple Notes</h1>
 
           <p>
             Capture your thoughts and keep them organized.
