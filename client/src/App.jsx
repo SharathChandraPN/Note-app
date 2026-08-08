@@ -65,7 +65,7 @@ function App() {
         <section className="add-note">
           <input
             type="text"
-            placeholder="Write a note...."
+            placeholder="Write a note."
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
