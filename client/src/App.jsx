@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "./App.css";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/notes`;
 
@@ -48,28 +49,78 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>My Notes</h1>
+    <div className="app">
+      <div className="notes-wrapper">
 
-      <input
-        type="text"
-        placeholder="Write a note..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+        <header className="header">
+          <div className="header-icon">✓</div>
 
-      <button onClick={addNote}>Add Note</button>
+          <h1>My Notes</h1>
 
-      <div>
-        {notes.map((note) => (
-          <div key={note._id}>
-            <span>{note.text}</span>
+          <p>
+            Capture your thoughts and keep them organized.
+          </p>
+        </header>
 
-            <button onClick={() => deleteNote(note._id)}>
-              Delete
-            </button>
+        <section className="add-note">
+          <input
+            type="text"
+            placeholder="Write a note..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+
+          <button onClick={addNote}>
+            Add Note
+          </button>
+        </section>
+
+        <div className="notes-title">
+          <div>
+            <h2>Your Notes</h2>
+            <p>All your saved notes</p>
           </div>
-        ))}
+
+          <span>{notes.length}</span>
+        </div>
+
+        <section className="notes">
+          {notes.length === 0 ? (
+            <div className="empty">
+              <div className="empty-icon">📝</div>
+
+              <h3>No notes yet</h3>
+
+              <p>
+                Add your first note using the box above.
+              </p>
+            </div>
+          ) : (
+            notes.map((note) => (
+              <div className="note" key={note._id}>
+                <div className="note-left">
+                  <div className="note-dot"></div>
+
+                  <p>{note.text}</p>
+                </div>
+
+                <button
+                  className="delete"
+                  onClick={() => deleteNote(note._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            ))
+          )}
+        </section>
+
+        <footer>
+          {notes.length > 0
+            ? `${notes.length} ${notes.length === 1 ? "note" : "notes"} saved`
+            : "Start writing something"}
+        </footer>
+
       </div>
     </div>
   );
