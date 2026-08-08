@@ -7,14 +7,18 @@ function App() {
   const [notes, setNotes] = useState([]);
   const [text, setText] = useState("");
 
-  const fetchNotes = async () => {
-    try {
-      const response = await axios.get(API_URL);
-      setNotes(response.data);
-    } catch (error) {
-      console.error("Failed to fetch notes:", error);
-    }
-  };
+  useEffect(() => {
+    const getNotes = async () => {
+      try {
+        const response = await axios.get(API_URL);
+        setNotes(response.data);
+      } catch (error) {
+        console.error("Failed to fetch notes:", error);
+      }
+    };
+
+    getNotes();
+  }, []);
 
   const addNote = async () => {
     if (!text.trim()) return;
@@ -24,7 +28,7 @@ function App() {
         text,
       });
 
-      setNotes([response.data, ...notes]);
+      setNotes((currentNotes) => [response.data, ...currentNotes]);
       setText("");
     } catch (error) {
       console.error("Failed to add note:", error);
@@ -35,15 +39,13 @@ function App() {
     try {
       await axios.delete(`${API_URL}/${id}`);
 
-      setNotes(notes.filter((note) => note._id !== id));
+      setNotes((currentNotes) =>
+        currentNotes.filter((note) => note._id !== id)
+      );
     } catch (error) {
       console.error("Failed to delete note:", error);
     }
   };
-
-  useEffect(() => {
-    fetchNotes();
-  }, []);
 
   return (
     <div>
